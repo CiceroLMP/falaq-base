@@ -6,6 +6,19 @@
 <div class="row">
     <!-- Formularço de envio de Pergunta -->
     <div class="col-md-5 mb-4">
+        @if(session('permissao'))
+            <div class="text-red-500 fw-bold">
+                {{ session('permissao') }}
+            </div>
+        @endif
+        @can('delete', $evento)
+            <form action="{{ route('eventos.destroy', $evento)  }}" method="post">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Deletar Evento</button>
+            </form>
+        @endcan
+
         <div class="card shadow-sm p-3">
             <h4 class="fw-bold mb-3">💬 Faça sua Pergunta</h4>
             <form action="{{ route('eventos.perguntas.store', $evento->id) }}" method="POST">

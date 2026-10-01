@@ -49,4 +49,15 @@ class EventoController extends Controller
         $evento = $request->user()->eventos()->create($request->validated());
         return redirect()->route('eventos.show', $evento->id);
     }
+
+    public function destroy($id)
+    {
+        $evento = Evento::find($id);
+        // if(Auth::id() === $evento->user_id){
+        if(Auth::user()->cannot('delete', $evento)){
+            return redirect()->route('eventos.show', $evento)->with('permissao', 'Usuário não pode deletar esse evento');
+        }
+        $evento->delete();
+        return redirect()->route('eventos.index');
+    }
 }
