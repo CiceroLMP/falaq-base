@@ -52,6 +52,20 @@
             <div class="card mb-3 shadow-sm border-start border-4 border-primary">
                 <div class="card-body">
                     <p class="fs-5 mb-2 text-white">{{ $pergunta->texto }}</p>
+                    @can('delete', $pergunta)
+                        <form
+                            action="{{ route('perguntas.destroy', $pergunta) }}"
+                            method="POST"
+                            class="mt-3 mb-3"
+                        >
+                            @csrf
+                            @method('DELETE')
+
+                            <x-danger-button>
+                                Excluir pergunta
+                            </x-danger-button>
+                        </form>
+                    @endcan
                     <div class="d-flex justify-content-between align-items-center text-secondary small">
                         <span>Status: <span class="badge bg-success">{{ $pergunta->status }}</span></span>
                         <span>{{ $pergunta->created_at->format('d/m/Y H:i') }}</span>
