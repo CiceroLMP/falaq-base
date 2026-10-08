@@ -10,6 +10,7 @@
             <h4 class="fw-bold mb-3">💬 Faça sua Pergunta</h4>
             <form action="{{ route('eventos.perguntas.store', $evento->id) }}" method="POST">
                 @csrf
+                <input type="hidden" name="evento_id" value="{{ $evento->id }}">
                 <div class="mb-3">
                     <label for="texto" class="form-label text-secondary">Texto da Pergunta</label>
 
@@ -32,13 +33,16 @@
     <div class="col-md-7">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="fw-bold m-0">📋 Perguntas do Evento</h4>
-            <span class="text-secondary small">Total no Banco: {{ $evento->perguntas->count() }}</span>
+            <span class="text-secondary small">Total no Banco: {{ $perguntas->total() }}</span>
         </div>
 
         @forelse($perguntas as $pergunta)
             <div class="card mb-3 shadow-sm border-start border-4 border-primary">
                 <div class="card-body">
                     <p class="fs-5 mb-2 text-white">{{ $pergunta->texto }}</p>
+                    <p class="text-secondary small mb-2">
+                        Autor: {{ $pergunta->user->name ?? 'Anônimo' }}
+                    </p>
                     <div class="d-flex justify-content-between align-items-center text-secondary small">
                         <span>Status: <span class="badge bg-success">{{ $pergunta->status }}</span></span>
                         <span>{{ $pergunta->created_at->format('d/m/Y H:i') }}</span>
@@ -54,7 +58,7 @@
         <!-- TICKET #002: Renderização dos Botões de Paginação -->
         @if(method_exists($perguntas, 'links'))
             <div class="d-flex justify-content-center mt-4">
-                
+                {{ $perguntas->links() }}
             </div>
         @endif
     </div>

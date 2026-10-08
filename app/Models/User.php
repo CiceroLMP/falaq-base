@@ -48,9 +48,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function eventos(): HasMany
+    public function perguntas(): HasMany
     {
-        return $this->hasMany(Evento::class);
+        return $this->hasMany(Pergunta::class);
     }
 
 }
