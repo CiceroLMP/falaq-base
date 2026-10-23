@@ -12,6 +12,8 @@ Route::middleware('auth')->group(function () {
         ->name('eventos.store');
     Route::post('/eventos/{evento}/participar', [EventoController::class, 'toggleInscricao'])
         ->name('eventos.participar');
+    Route::post('/perguntas/{pergunta}/votar', [EventoController::class,'votar',])
+        ->name('perguntas.votar');
 });
 
 Route::get('/', [EventoController::class, 'index'])->name('eventos.index');
