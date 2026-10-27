@@ -4,6 +4,7 @@ use App\Http\Controllers\EventoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ModeracaoController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/eventos/create', [EventoController::class, 'create'])
@@ -12,6 +13,12 @@ Route::middleware('auth')->group(function () {
         ->name('eventos.store');
     Route::post('/eventos/{evento}/participar', [EventoController::class, 'toggleInscricao'])
         ->name('eventos.participar');
+    Route::post('/perguntas/{pergunta}/moderar', [ModeracaoController::class,'store',])
+        ->name('moderacoes.store'); 
+        Route::get('/eventos/{evento}/moderacoes', [ModeracaoController::class,'index',])
+        ->name('moderacoes.index');    
+        Route::patch('/moderacoes/{moderacao}/status', [ModeracaoController::class,'updateStatus',])
+        ->name('moderacoes.updateStatus');
 });
 
 Route::get('/', [EventoController::class, 'index'])->name('eventos.index');

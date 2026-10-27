@@ -22,9 +22,12 @@ class EventoController extends Controller
 
     public function show(string $id)
     {
-        $evento = Evento::find($id);
+        $evento = Evento::findOrFail($id);
 
-        $perguntas = Pergunta::all();
+        $perguntas = $evento->perguntas()
+            ->where('status', '!=', 'rejeitado')
+            ->latest()
+            ->get();
 
         return view('eventos.show', compact('evento', 'perguntas'));
     }
@@ -63,4 +66,5 @@ class EventoController extends Controller
         return back()->with('status', 'Inscrição atualizada com sucesso!');
     }
 
+    
 }
